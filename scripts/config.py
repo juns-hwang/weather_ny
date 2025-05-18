@@ -1,4 +1,9 @@
-API_KEY = "85832c8e58975a01378eaf0350698200"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
 CITY = "New York"
 COUNTRY = "US"

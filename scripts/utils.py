@@ -14,7 +14,7 @@ def fetch_current_weather():
     return response.json()
 
 def insert_current_weather(data):
-    conn = sqlite3.conenct(DB_PATH)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     cursor.execute('''
@@ -38,39 +38,39 @@ def insert_current_weather(data):
     conn.close()
     print("Current weather inserted.")
     
-    def fetch_forecast():
-        params = {
-            'lat': LAT,
+def fetch_forecast():
+    params = {
+        'lat': LAT,
             'lon': LON,
             'appid': API_KEY
         }
-        response = requests.get(FORECAST_URL, params=params)
-        response.raise_for_status()
-        return response.json()
+    response = requests.get(FORECAST_URL, params=params)
+    response.raise_for_status()
+    return response.json()
     
-    def insert_forecast(data):
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
+def insert_forecast(data):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
         
-        for entry in data['list']:
-            cursor.execute('''
-                INSERT OR IGNORE INTO forecast_weather (
-                    city, country, forecast_time_utc, forecast_created_at,
-                    temp_k, feels_like_k, humidity, pressure,
-                    wind_speed, wind_deg, weather_description
+    for entry in data['list']:
+        cursor.execute('''
+           INSERT OR IGNORE INTO forecast_weather (
+                city, country, forecast_time_utc, forecast_created_at,
+                temp_k, feels_like_k, humidity, pressure,
+                wind_speed, wind_deg, weather_description
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-            CITY,
-            COUNTRY,
-            datetime.utcfromtimestamp(entry['dt']),
-            datetime.utcnow(),
-            entry['main']['temp'],
-            entry['main']['feels_like'],
-            entry['main']['humidity'],
-            entry['main']['pressure'],
-            entry['wind']['speed'],
-            entry['wind'].get('deg', 0),
-            entry['weather'][0]['description']
+        ''', (
+        CITY,
+        COUNTRY,
+        datetime.utcfromtimestamp(entry['dt']),
+        datetime.utcnow(),
+        entry['main']['temp'],
+        entry['main']['feels_like'],
+        entry['main']['humidity'],
+        entry['main']['pressure'],
+        entry['wind']['speed'],
+        entry['wind'].get('deg', 0),
+        entry['weather'][0]['description']
         ))
 
     conn.commit()

@@ -1,5 +1,6 @@
 import sqlite3
 from config import DB_PATH
+import os
 
 def create_tables():
     conn = sqlite3.connect(DB_PATH)
@@ -47,3 +48,4 @@ def create_tables():
     
 if __name__ == "__main__":
     create_tables()
+    print(os.path.abspath(DB_PATH))

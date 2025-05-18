@@ -1,0 +1,16 @@
+# 🛡️ Secrets and credentials
+.env
+
+# 💾 Databases
+*.db
+data/raw/
+
+# ⚙️ Python cache and compiled files
+__pycache__/
+*.pyc
+
+# 📝 Logs
+*.log
+
+# 🧪 Jupyter notebook checkpoints
+.ipynb_checkpoints/
